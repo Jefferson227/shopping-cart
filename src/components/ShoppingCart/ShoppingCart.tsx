@@ -10,8 +10,14 @@ import {
   IonContent,
   IonButton,
 } from '@ionic/react';
+import { useRef, useState } from 'react';
 
 const ShoppingCart = () => {
+  const budget = useRef<HTMLIonInputElement>(null);
+  const item = useRef<HTMLIonInputElement>(null);
+  const price = useRef<HTMLIonInputElement>(null);
+  const test = () => console.log(budget.current?.value);
+
   return (
     <>
       <IonList>
@@ -21,7 +27,7 @@ const ShoppingCart = () => {
 
         <IonItem>
           <IonLabel>Budget</IonLabel>
-          <IonInput placeholder="9999.99"></IonInput>
+          <IonInput placeholder="9999.99" ref={budget}></IonInput>
         </IonItem>
 
         <IonItem>
@@ -36,17 +42,19 @@ const ShoppingCart = () => {
         </IonListHeader>
 
         <IonItem>
-          <IonLabel>Nome</IonLabel>
-          <IonInput placeholder="1kg de arroz"></IonInput>
+          <IonLabel>Item</IonLabel>
+          <IonInput placeholder="1kg de arroz" ref={item}></IonInput>
         </IonItem>
 
         <IonItem>
           <IonLabel>Preço</IonLabel>
-          <IonInput placeholder="3.99"></IonInput>
+          <IonInput placeholder="3.99" ref={price}></IonInput>
         </IonItem>
 
         <IonItem>
-          <IonButton style={{ width: '100%' }}>Adicionar</IonButton>
+          <IonButton style={{ width: '100%' }} onClick={test}>
+            Adicionar
+          </IonButton>
         </IonItem>
       </IonList>
 
