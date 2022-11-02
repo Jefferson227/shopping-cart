@@ -8,6 +8,7 @@ import {
   IonRow,
   IonCol,
   IonContent,
+  IonButton,
 } from '@ionic/react';
 
 const ShoppingCart = () => {
@@ -42,6 +43,10 @@ const ShoppingCart = () => {
         <IonItem>
           <IonLabel>Preço</IonLabel>
           <IonInput placeholder="3.99"></IonInput>
+        </IonItem>
+
+        <IonItem>
+          <IonButton style={{ width: '100%' }}>Adicionar</IonButton>
         </IonItem>
       </IonList>
 
