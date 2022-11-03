@@ -41,10 +41,17 @@ const ShoppingCart = () => {
 
   const deleteItem = (itemId: string) => {
     const newItems = items.filter(item => item.id !== itemId);
+
+    if (newItems.length === 0)
+      localStorage.setItem('items', '[]');
+
     setItems(newItems);
   };
 
   useEffect(() => {
+    if (items.length > 0)
+      localStorage.setItem('items', JSON.stringify(items));
+
     const sum = items
       .map(item => parseFloat(item.price ?? '0'))
       .reduce((sum, current) => sum += current, 0);
@@ -54,6 +61,15 @@ const ShoppingCart = () => {
     if (total.current) total.current.value = sum.toFixed(2);
     if (budgetMinusTotal.current) budgetMinusTotal.current.value = budgetMinusTotalSum;
   }, [items]);
+
+  useEffect(() => {
+    const jsonItems = JSON.parse(localStorage.getItem('items') ?? '[]');
+
+    if (jsonItems.length === 0) return;
+
+    setItems(jsonItems);
+    console.log('items loaded');
+  }, []);
 
   return (
     <>
