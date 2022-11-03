@@ -139,10 +139,10 @@ const ShoppingCart = () => {
             items.map((item, index) => (
               <IonRow key={index}>
                 <IonCol>{item.name}</IonCol>
-                <IonCol>{parseInt(item.quantity ?? '0')}</IonCol>
-                <IonCol>{parseFloat(item.price ?? '0').toFixed(2)}</IonCol>
-                <IonCol>{(parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0')).toFixed(2)}</IonCol>
-                <IonCol><div onClick={() => deleteItem(item.id)}>&#10060;</div></IonCol>
+                <IonCol style={{ textAlign: 'center' }}>{parseInt(item.quantity ?? '0')}</IonCol>
+                <IonCol style={{ textAlign: 'center' }}>{parseFloat(item.price ?? '0').toFixed(2)}</IonCol>
+                <IonCol style={{ textAlign: 'center' }}>{(parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0')).toFixed(2)}</IonCol>
+                <IonCol style={{ textAlign: 'center' }}><div onClick={() => deleteItem(item.id)}>&#10060;</div></IonCol>
               </IonRow>
           ))}
         </IonGrid>
