@@ -10,7 +10,7 @@ import {
   IonContent,
   IonButton,
 } from '@ionic/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 
 interface Item {
   id?: string;
@@ -20,6 +20,8 @@ interface Item {
 
 const ShoppingCart = () => {
   const budget = useRef<HTMLIonInputElement | null>(null);
+  const total = useRef<HTMLIonInputElement | null>(null);
+  const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
   const itemName = useRef<HTMLIonInputElement | null>(null);
   const itemPrice = useRef<HTMLIonInputElement | null>(null);
   const [items, setItems] = useState(Array<Item>);
@@ -35,6 +37,17 @@ const ShoppingCart = () => {
     setItems([...items, newItem]);
   };
 
+  useEffect(() => {
+    const sum = items
+      .map(item => parseFloat(item.price ?? '0'))
+      .reduce((sum, current) => sum += current, 0);
+
+    const budgetMinusTotalSum = (parseFloat(budget.current?.value?.toString() ?? '0') - sum).toFixed(2);
+
+    if (total.current) total.current.value = sum.toFixed(2);
+    if (budgetMinusTotal.current) budgetMinusTotal.current.value = budgetMinusTotalSum;
+  }, [items]);
+
   return (
     <>
       <IonList>
@@ -49,7 +62,12 @@ const ShoppingCart = () => {
 
         <IonItem>
           <IonLabel>Total</IonLabel>
-          <IonInput placeholder="9999.99" readonly={true}></IonInput>
+          <IonInput placeholder="9999.99" ref={total} readonly={true}></IonInput>
+        </IonItem>
+
+        <IonItem>
+          <IonLabel>Budget - Total</IonLabel>
+          <IonInput placeholder="9999.99" ref={budgetMinusTotal} readonly={true}></IonInput>
         </IonItem>
       </IonList>
 
@@ -88,7 +106,7 @@ const ShoppingCart = () => {
             items.map(item => (
               <IonRow>
                 <IonCol>{item.name}</IonCol>
-                <IonCol>{item.price}</IonCol>
+                <IonCol>{parseFloat(item.price ?? '0').toFixed(2)}</IonCol>
               </IonRow>
             ))}
         </IonGrid>
