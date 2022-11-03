@@ -17,6 +17,7 @@ interface Item {
   id: string;
   name?: string;
   price?: string;
+  quantity: string;
 }
 
 const ShoppingCart = () => {
@@ -25,12 +26,14 @@ const ShoppingCart = () => {
   const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
   const itemName = useRef<HTMLIonInputElement | null>(null);
   const itemPrice = useRef<HTMLIonInputElement | null>(null);
+  const itemQuantity = useRef<HTMLIonInputElement | null>(null);
   const [items, setItems] = useState(Array<Item>);
   const addItem = () => {
     const newItem: Item = {
       id: uuid(),
       name: itemName.current?.value?.toString() ?? '',
-      price: itemPrice.current?.value?.toString() ?? ''
+      price: itemPrice.current?.value?.toString() ?? '',
+      quantity: itemQuantity.current?.value?.toString() ?? ''
     };
 
     if (itemName.current) itemName.current.value = '';
@@ -53,7 +56,7 @@ const ShoppingCart = () => {
       localStorage.setItem('items', JSON.stringify(items));
 
     const sum = items
-      .map(item => parseFloat(item.price ?? '0'))
+      .map(item => parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0'))
       .reduce((sum, current) => sum += current, 0);
 
     const budgetMinusTotalSum = (parseFloat(budget.current?.value?.toString() ?? '0') - sum).toFixed(2);
@@ -68,7 +71,6 @@ const ShoppingCart = () => {
     if (jsonItems.length === 0) return;
 
     setItems(jsonItems);
-    console.log('items loaded');
   }, []);
 
   return (
@@ -105,6 +107,11 @@ const ShoppingCart = () => {
         </IonItem>
 
         <IonItem>
+          <IonLabel>Quantidade</IonLabel>
+          <IonInput placeholder="1" ref={itemQuantity}></IonInput>
+        </IonItem>
+
+        <IonItem>
           <IonLabel>Preço</IonLabel>
           <IonInput placeholder="3.99" ref={itemPrice}></IonInput>
         </IonItem>
@@ -122,7 +129,9 @@ const ShoppingCart = () => {
         <IonGrid fixed={true} style={{ border: '1px solid #ffffff' }}>
           <IonRow style={{ fontWeight: 'bold' }}>
             <IonCol style={{ border: '1px solid #ffffff' }}>Item</IonCol>
+            <IonCol style={{ border: '1px solid #ffffff' }}>Qtd</IonCol>
             <IonCol style={{ border: '1px solid #ffffff' }}>Preço</IonCol>
+            <IonCol style={{ border: '1px solid #ffffff' }}>Total</IonCol>
             <IonCol style={{ border: '1px solid #ffffff' }}>Deletar</IonCol>
           </IonRow>
 
@@ -130,10 +139,12 @@ const ShoppingCart = () => {
             items.map((item, index) => (
               <IonRow key={index}>
                 <IonCol>{item.name}</IonCol>
+                <IonCol>{parseInt(item.quantity ?? '0')}</IonCol>
                 <IonCol>{parseFloat(item.price ?? '0').toFixed(2)}</IonCol>
-                <IonCol><IonButton onClick={() => deleteItem(item.id)}>Deletar</IonButton></IonCol>
+                <IonCol>{(parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0')).toFixed(2)}</IonCol>
+                <IonCol><div onClick={() => deleteItem(item.id)}>&#10060;</div></IonCol>
               </IonRow>
-            ))}
+          ))}
         </IonGrid>
       </IonContent>
     </>
