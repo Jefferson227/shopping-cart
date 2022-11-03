@@ -21,7 +21,7 @@ interface Item {
 }
 
 const ShoppingCart = () => {
-  const budget = useRef<HTMLIonInputElement | null>(null);
+  const [budget, setBudget] = useState(0);
   const total = useRef<HTMLIonInputElement | null>(null);
   const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
   const itemName = useRef<HTMLIonInputElement | null>(null);
@@ -59,11 +59,11 @@ const ShoppingCart = () => {
       .map(item => parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0'))
       .reduce((sum, current) => sum += current, 0);
 
-    const budgetMinusTotalSum = (parseFloat(budget.current?.value?.toString() ?? '0') - sum).toFixed(2);
+    const budgetMinusTotalSum = (parseFloat(budget.toString()) - sum).toFixed(2);
 
     if (total.current) total.current.value = sum.toFixed(2);
     if (budgetMinusTotal.current) budgetMinusTotal.current.value = budgetMinusTotalSum;
-  }, [items]);
+  }, [items, budget]);
 
   useEffect(() => {
     const jsonItems = JSON.parse(localStorage.getItem('items') ?? '[]');
@@ -82,7 +82,7 @@ const ShoppingCart = () => {
 
         <IonItem>
           <IonLabel>Budget</IonLabel>
-          <IonInput placeholder="9999.99" ref={budget}></IonInput>
+          <IonInput placeholder="9999.99" value={budget} onIonChange={(e) => setBudget(parseInt(e.target.value?.toString() ?? '0'))}></IonInput>
         </IonItem>
 
         <IonItem>
