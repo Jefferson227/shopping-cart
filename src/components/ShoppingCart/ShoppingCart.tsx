@@ -11,9 +11,10 @@ import {
   IonButton,
 } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
+import { v4 as uuid } from 'uuid';
 
 interface Item {
-  id?: string;
+  id: string;
   name?: string;
   price?: string;
 }
@@ -27,6 +28,7 @@ const ShoppingCart = () => {
   const [items, setItems] = useState(Array<Item>);
   const addItem = () => {
     const newItem: Item = {
+      id: uuid(),
       name: itemName.current?.value?.toString() ?? '',
       price: itemPrice.current?.value?.toString() ?? ''
     };
@@ -35,6 +37,11 @@ const ShoppingCart = () => {
     if (itemPrice.current) itemPrice.current.value = '';
 
     setItems([...items, newItem]);
+  };
+
+  const deleteItem = (itemId: string) => {
+    const newItems = items.filter(item => item.id !== itemId);
+    setItems(newItems);
   };
 
   useEffect(() => {
@@ -100,13 +107,15 @@ const ShoppingCart = () => {
           <IonRow style={{ fontWeight: 'bold' }}>
             <IonCol style={{ border: '1px solid #ffffff' }}>Item</IonCol>
             <IonCol style={{ border: '1px solid #ffffff' }}>Preço</IonCol>
+            <IonCol style={{ border: '1px solid #ffffff' }}>Deletar</IonCol>
           </IonRow>
 
           {
-            items.map(item => (
-              <IonRow>
+            items.map((item, index) => (
+              <IonRow key={index}>
                 <IonCol>{item.name}</IonCol>
                 <IonCol>{parseFloat(item.price ?? '0').toFixed(2)}</IonCol>
+                <IonCol><IonButton onClick={() => deleteItem(item.id)}>Deletar</IonButton></IonCol>
               </IonRow>
             ))}
         </IonGrid>
