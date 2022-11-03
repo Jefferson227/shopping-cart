@@ -12,11 +12,28 @@ import {
 } from '@ionic/react';
 import { useRef, useState } from 'react';
 
+interface Item {
+  id?: string;
+  name?: string;
+  price?: string;
+}
+
 const ShoppingCart = () => {
-  const budget = useRef<HTMLIonInputElement>(null);
-  const item = useRef<HTMLIonInputElement>(null);
-  const price = useRef<HTMLIonInputElement>(null);
-  const test = () => console.log(budget.current?.value);
+  const budget = useRef<HTMLIonInputElement | null>(null);
+  const itemName = useRef<HTMLIonInputElement | null>(null);
+  const itemPrice = useRef<HTMLIonInputElement | null>(null);
+  const [items, setItems] = useState(Array<Item>);
+  const addItem = () => {
+    const newItem: Item = {
+      name: itemName.current?.value?.toString() ?? '',
+      price: itemPrice.current?.value?.toString() ?? ''
+    };
+
+    if (itemName.current) itemName.current.value = '';
+    if (itemPrice.current) itemPrice.current.value = '';
+
+    setItems([...items, newItem]);
+  };
 
   return (
     <>
@@ -43,16 +60,16 @@ const ShoppingCart = () => {
 
         <IonItem>
           <IonLabel>Item</IonLabel>
-          <IonInput placeholder="1kg de arroz" ref={item}></IonInput>
+          <IonInput placeholder="1kg de arroz" ref={itemName}></IonInput>
         </IonItem>
 
         <IonItem>
           <IonLabel>Preço</IonLabel>
-          <IonInput placeholder="3.99" ref={price}></IonInput>
+          <IonInput placeholder="3.99" ref={itemPrice}></IonInput>
         </IonItem>
 
         <IonItem>
-          <IonButton style={{ width: '100%' }} onClick={test}>
+          <IonButton style={{ width: '100%' }} onClick={addItem}>
             Adicionar
           </IonButton>
         </IonItem>
@@ -67,15 +84,13 @@ const ShoppingCart = () => {
             <IonCol style={{ border: '1px solid #ffffff' }}>Preço</IonCol>
           </IonRow>
 
-          <IonRow>
-            <IonCol>aaaaa</IonCol>
-            <IonCol>3.99</IonCol>
-          </IonRow>
-
-          <IonRow>
-            <IonCol>bbbbb</IonCol>
-            <IonCol>3.99</IonCol>
-          </IonRow>
+          {
+            items.map(item => (
+              <IonRow>
+                <IonCol>{item.name}</IonCol>
+                <IonCol>{item.price}</IonCol>
+              </IonRow>
+            ))}
         </IonGrid>
       </IonContent>
     </>
