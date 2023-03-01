@@ -33,7 +33,7 @@ const ShoppingCart = () => {
       id: uuid(),
       name: itemName.current?.value?.toString() ?? '',
       price: itemPrice.current?.value?.toString() ?? '',
-      quantity: itemQuantity.current?.value?.toString() ?? ''
+      quantity: itemQuantity.current?.value?.toString() ?? '',
     };
 
     if (itemName.current) itemName.current.value = '';
@@ -43,26 +43,30 @@ const ShoppingCart = () => {
   };
 
   const deleteItem = (itemId: string) => {
-    const newItems = items.filter(item => item.id !== itemId);
+    const newItems = items.filter((item) => item.id !== itemId);
 
-    if (newItems.length === 0)
-      localStorage.setItem('items', '[]');
+    if (newItems.length === 0) localStorage.setItem('items', '[]');
 
     setItems(newItems);
   };
 
   useEffect(() => {
-    if (items.length > 0)
-      localStorage.setItem('items', JSON.stringify(items));
+    if (items.length > 0) localStorage.setItem('items', JSON.stringify(items));
 
     const sum = items
-      .map(item => parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0'))
-      .reduce((sum, current) => sum += current, 0);
+      .map(
+        (item) =>
+          parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0')
+      )
+      .reduce((sum, current) => (sum += current), 0);
 
-    const budgetMinusTotalSum = (parseFloat(budget.toString()) - sum).toFixed(2);
+    const budgetMinusTotalSum = (parseFloat(budget.toString()) - sum).toFixed(
+      2
+    );
 
     if (total.current) total.current.value = sum.toFixed(2);
-    if (budgetMinusTotal.current) budgetMinusTotal.current.value = budgetMinusTotalSum;
+    if (budgetMinusTotal.current)
+      budgetMinusTotal.current.value = budgetMinusTotalSum;
   }, [items, budget]);
 
   useEffect(() => {
@@ -82,17 +86,31 @@ const ShoppingCart = () => {
 
         <IonItem>
           <IonLabel>Budget</IonLabel>
-          <IonInput placeholder="9999.99" value={budget} onIonChange={(e) => setBudget(parseInt(e.target.value?.toString() ?? '0'))}></IonInput>
+          <IonInput
+            placeholder="9999.99"
+            value={budget}
+            onIonChange={(e) =>
+              setBudget(parseInt(e.target.value?.toString() ?? '0'))
+            }
+          ></IonInput>
         </IonItem>
 
         <IonItem>
           <IonLabel>Total</IonLabel>
-          <IonInput placeholder="9999.99" ref={total} readonly={true}></IonInput>
+          <IonInput
+            placeholder="9999.99"
+            ref={total}
+            readonly={true}
+          ></IonInput>
         </IonItem>
 
         <IonItem>
           <IonLabel>Budget - Total</IonLabel>
-          <IonInput placeholder="9999.99" ref={budgetMinusTotal} readonly={true}></IonInput>
+          <IonInput
+            placeholder="9999.99"
+            ref={budgetMinusTotal}
+            readonly={true}
+          ></IonInput>
         </IonItem>
       </IonList>
 
@@ -135,15 +153,25 @@ const ShoppingCart = () => {
             <IonCol style={{ border: '1px solid #ffffff' }}>Deletar</IonCol>
           </IonRow>
 
-          {
-            items.map((item, index) => (
-              <IonRow key={index}>
-                <IonCol>{item.name}</IonCol>
-                <IonCol style={{ textAlign: 'center' }}>{parseInt(item.quantity ?? '0')}</IonCol>
-                <IonCol style={{ textAlign: 'center' }}>{parseFloat(item.price ?? '0').toFixed(2)}</IonCol>
-                <IonCol style={{ textAlign: 'center' }}>{(parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0')).toFixed(2)}</IonCol>
-                <IonCol style={{ textAlign: 'center' }}><div onClick={() => deleteItem(item.id)}>&#10060;</div></IonCol>
-              </IonRow>
+          {items.map((item, index) => (
+            <IonRow key={index}>
+              <IonCol>{item.name}</IonCol>
+              <IonCol style={{ textAlign: 'center' }}>
+                {parseInt(item.quantity ?? '0')}
+              </IonCol>
+              <IonCol style={{ textAlign: 'center' }}>
+                {parseFloat(item.price ?? '0').toFixed(2)}
+              </IonCol>
+              <IonCol style={{ textAlign: 'center' }}>
+                {(
+                  parseFloat(item.quantity ?? '0') *
+                  parseFloat(item.price ?? '0')
+                ).toFixed(2)}
+              </IonCol>
+              <IonCol style={{ textAlign: 'center' }}>
+                <div onClick={() => deleteItem(item.id)}>&#10060;</div>
+              </IonCol>
+            </IonRow>
           ))}
         </IonGrid>
       </IonContent>
