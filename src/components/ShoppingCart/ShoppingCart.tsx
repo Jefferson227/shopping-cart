@@ -32,7 +32,7 @@ const ShoppingCart = () => {
     const newItem: Item = {
       id: uuid(),
       name: itemName.current?.value?.toString() ?? '',
-      price: itemPrice.current?.value?.toString() ?? '',
+      price: itemPrice.current?.value?.toString().replace(/,/g, '.') ?? '',
       quantity: itemQuantity.current?.value?.toString() ?? '',
     };
 
@@ -88,6 +88,8 @@ const ShoppingCart = () => {
           <IonLabel>Budget</IonLabel>
           <IonInput
             placeholder="9999.99"
+            type="number"
+            inputMode="decimal"
             value={budget}
             onIonChange={(e) =>
               setBudget(parseInt(e.target.value?.toString() ?? '0'))
@@ -126,12 +128,22 @@ const ShoppingCart = () => {
 
         <IonItem>
           <IonLabel>Quantidade</IonLabel>
-          <IonInput placeholder="1" ref={itemQuantity}></IonInput>
+          <IonInput
+            placeholder="1"
+            type="number"
+            inputMode="decimal"
+            ref={itemQuantity}
+          ></IonInput>
         </IonItem>
 
         <IonItem>
           <IonLabel>Preço</IonLabel>
-          <IonInput placeholder="3.99" ref={itemPrice}></IonInput>
+          <IonInput
+            placeholder="3.99"
+            type="number"
+            inputMode="decimal"
+            ref={itemPrice}
+          ></IonInput>
         </IonItem>
 
         <IonItem>
