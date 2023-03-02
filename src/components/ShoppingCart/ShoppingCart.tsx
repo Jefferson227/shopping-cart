@@ -12,6 +12,7 @@ import {
 } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
+import ItemList from '../ItemList/ItemList';
 
 interface Item {
   id: string;
@@ -154,6 +155,7 @@ const ShoppingCart = () => {
       </IonList>
 
       <IonContent>
+        <ItemList />
         <h2>Lista</h2>
 
         <IonGrid fixed={true} style={{ border: '1px solid #ffffff' }}>
