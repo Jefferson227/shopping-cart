@@ -13,13 +13,7 @@ import {
 import { useRef, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import ItemList from '../ItemList/ItemList';
-
-interface Item {
-  id: string;
-  name?: string;
-  price?: string;
-  quantity: string;
-}
+import { Item } from '../../interfaces/Item';
 
 const ShoppingCart = () => {
   const [budget, setBudget] = useState(0);
@@ -154,41 +148,7 @@ const ShoppingCart = () => {
         </IonItem>
       </IonList>
 
-      <IonContent>
-        <ItemList />
-        <h2>Lista</h2>
-
-        <IonGrid fixed={true} style={{ border: '1px solid #ffffff' }}>
-          <IonRow style={{ fontWeight: 'bold' }}>
-            <IonCol style={{ border: '1px solid #ffffff' }}>Item</IonCol>
-            <IonCol style={{ border: '1px solid #ffffff' }}>Qtd</IonCol>
-            <IonCol style={{ border: '1px solid #ffffff' }}>Preço</IonCol>
-            <IonCol style={{ border: '1px solid #ffffff' }}>Total</IonCol>
-            <IonCol style={{ border: '1px solid #ffffff' }}>Deletar</IonCol>
-          </IonRow>
-
-          {items.map((item, index) => (
-            <IonRow key={index}>
-              <IonCol>{item.name}</IonCol>
-              <IonCol style={{ textAlign: 'center' }}>
-                {parseInt(item.quantity ?? '0')}
-              </IonCol>
-              <IonCol style={{ textAlign: 'center' }}>
-                {parseFloat(item.price ?? '0').toFixed(2)}
-              </IonCol>
-              <IonCol style={{ textAlign: 'center' }}>
-                {(
-                  parseFloat(item.quantity ?? '0') *
-                  parseFloat(item.price ?? '0')
-                ).toFixed(2)}
-              </IonCol>
-              <IonCol style={{ textAlign: 'center' }}>
-                <div onClick={() => deleteItem(item.id)}>&#10060;</div>
-              </IonCol>
-            </IonRow>
-          ))}
-        </IonGrid>
-      </IonContent>
+      <ItemList items={items} deleteItem={deleteItem} />
     </>
   );
 };
