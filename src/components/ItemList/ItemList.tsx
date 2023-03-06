@@ -16,6 +16,15 @@ interface ItemListProps {
 }
 
 const ItemList: React.FC<ItemListProps> = ({ items, deleteItem }) => {
+  const localeCurrency = new Intl.NumberFormat(navigator.language, {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
+  const localeDecimal = new Intl.NumberFormat(navigator.language, {
+    style: 'decimal',
+  });
+
   return (
     <IonContent>
       <IonListHeader>
@@ -28,18 +37,22 @@ const ItemList: React.FC<ItemListProps> = ({ items, deleteItem }) => {
             <IonItem>
               <IonLabel slot="start">
                 <h2>{item.name}</h2>
-                <p>Quantidade: {parseFloat(item.quantity ?? '0')}</p>
+                <p>
+                  Quantidade:{' '}
+                  {localeDecimal.format(parseFloat(item.quantity ?? '0'))}
+                </p>
               </IonLabel>
 
               <IonLabel slot="end">
                 <h2 style={{ textAlign: 'right' }}>
-                  {(
+                  {localeCurrency.format(
                     parseFloat(item.quantity ?? '0') *
-                    parseFloat(item.price ?? '0')
-                  ).toFixed(2)}
+                      parseFloat(item.price ?? '0')
+                  )}
                 </h2>
                 <p>
-                  Preço unitário: {parseFloat(item.price ?? '0').toFixed(2)}
+                  Preço unitário:{' '}
+                  {localeCurrency.format(parseFloat(item.price ?? '0'))}
                 </p>
               </IonLabel>
             </IonItem>
