@@ -1,4 +1,13 @@
-import { IonContent, IonGrid, IonRow, IonCol } from '@ionic/react';
+import {
+  IonContent,
+  IonList,
+  IonItemSliding,
+  IonItem,
+  IonLabel,
+  IonItemOption,
+  IonItemOptions,
+  IonListHeader,
+} from '@ionic/react';
 import { Item } from '../../interfaces/Item';
 
 interface ItemListProps {
@@ -9,37 +18,40 @@ interface ItemListProps {
 const ItemList: React.FC<ItemListProps> = ({ items, deleteItem }) => {
   return (
     <IonContent>
-      <h2>Lista</h2>
+      <IonListHeader>
+        <IonLabel>Lista</IonLabel>
+      </IonListHeader>
 
-      <IonGrid fixed={true} style={{ border: '1px solid #ffffff' }}>
-        <IonRow style={{ fontWeight: 'bold' }}>
-          <IonCol style={{ border: '1px solid #ffffff' }}>Item</IonCol>
-          <IonCol style={{ border: '1px solid #ffffff' }}>Qtd</IonCol>
-          <IonCol style={{ border: '1px solid #ffffff' }}>Preço</IonCol>
-          <IonCol style={{ border: '1px solid #ffffff' }}>Total</IonCol>
-          <IonCol style={{ border: '1px solid #ffffff' }}>Deletar</IonCol>
-        </IonRow>
-
+      <IonList>
         {items.map((item, index) => (
-          <IonRow key={index}>
-            <IonCol>{item.name}</IonCol>
-            <IonCol style={{ textAlign: 'center' }}>
-              {parseInt(item.quantity ?? '0')}
-            </IonCol>
-            <IonCol style={{ textAlign: 'center' }}>
-              {parseFloat(item.price ?? '0').toFixed(2)}
-            </IonCol>
-            <IonCol style={{ textAlign: 'center' }}>
-              {(
-                parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0')
-              ).toFixed(2)}
-            </IonCol>
-            <IonCol style={{ textAlign: 'center' }}>
-              <div onClick={() => deleteItem(item.id)}>&#10060;</div>
-            </IonCol>
-          </IonRow>
+          <IonItemSliding key={index}>
+            <IonItem>
+              <IonLabel slot="start">
+                <h2>{item.name}</h2>
+                <p>Quantidade: {parseFloat(item.quantity ?? '0')}</p>
+              </IonLabel>
+
+              <IonLabel slot="end">
+                <h2 style={{ textAlign: 'right' }}>
+                  {(
+                    parseFloat(item.quantity ?? '0') *
+                    parseFloat(item.price ?? '0')
+                  ).toFixed(2)}
+                </h2>
+                <p>
+                  Preço unitário: {parseFloat(item.price ?? '0').toFixed(2)}
+                </p>
+              </IonLabel>
+            </IonItem>
+
+            <IonItemOptions>
+              <IonItemOption color="danger" onClick={() => deleteItem(item.id)}>
+                Deletar
+              </IonItemOption>
+            </IonItemOptions>
+          </IonItemSliding>
         ))}
-      </IonGrid>
+      </IonList>
     </IonContent>
   );
 };
