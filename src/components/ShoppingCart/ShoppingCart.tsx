@@ -4,10 +4,6 @@ import {
   IonLabel,
   IonInput,
   IonListHeader,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonContent,
   IonButton,
 } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
