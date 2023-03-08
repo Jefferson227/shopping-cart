@@ -5,13 +5,16 @@ import {
   IonInput,
   IonListHeader,
   IonButton,
+  IonPage,
 } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
-import ItemList from '../ItemList/ItemList';
 import { Item } from '../../interfaces/Item';
+import ItemList from '../ItemList/ItemList';
+import AddItem from '../AddItem/AddItem';
 
 const ShoppingCart = () => {
+  const page = useRef(undefined);
   const [budget, setBudget] = useState(0);
   const total = useRef<HTMLIonInputElement | null>(null);
   const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
@@ -69,7 +72,7 @@ const ShoppingCart = () => {
   }, []);
 
   return (
-    <>
+    <IonPage ref={page}>
       <IonList>
         <IonListHeader>
           <IonLabel>Totais</IonLabel>
@@ -144,8 +147,10 @@ const ShoppingCart = () => {
         </IonItem>
       </IonList>
 
+      <AddItem page={page} />
+
       <ItemList items={items} deleteItem={deleteItem} />
-    </>
+    </IonPage>
   );
 };
 
