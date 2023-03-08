@@ -7,6 +7,7 @@ import {
   IonFabButton,
   IonHeader,
   IonIcon,
+  IonInput,
   IonItem,
   IonLabel,
   IonModal,
@@ -36,6 +37,11 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
     modal.current?.dismiss();
   }
 
+  function forceDismiss() {
+    if (!canDismiss) setCanDismiss(true);
+    dismiss();
+  }
+
   return (
     <>
       <IonModal
@@ -46,29 +52,52 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
       >
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Modal</IonTitle>
+            <IonTitle>Adicionar Itens</IonTitle>
             <IonButtons slot="end">
-              <IonButton onClick={() => dismiss()}>Close</IonButton>
+              <IonButton onClick={() => forceDismiss()}>Fechar</IonButton>
             </IonButtons>
           </IonToolbar>
         </IonHeader>
 
         <IonContent>
-          <p className="ion-padding-horizontal">
-            You must accept the terms and conditions to close this modal.
-          </p>
           <IonItem>
-            <IonLabel className="ion-text-wrap" {...{ for: 'terms' }}>
-              Do you accept the terms and conditions?
-            </IonLabel>
+            <IonLabel>Item</IonLabel>
+            <IonInput placeholder="1kg de arroz"></IonInput>
+          </IonItem>
+
+          <IonItem>
+            <IonLabel>Quantidade</IonLabel>
+            <IonInput
+              placeholder="1"
+              type="number"
+              inputMode="decimal"
+            ></IonInput>
+          </IonItem>
+
+          <IonItem>
+            <IonLabel>Preço</IonLabel>
+            <IonInput
+              placeholder="3.99"
+              type="number"
+              inputMode="decimal"
+            ></IonInput>
+          </IonItem>
+
+          <IonItem>
+            <IonLabel {...{ for: 'terms' }}>Manter esta janela aberta</IonLabel>
+
             <IonCheckbox
               id="terms"
-              checked={canDismiss}
+              checked={!canDismiss}
               onIonChange={(ev) => {
-                setCanDismiss(ev.detail.checked);
+                setCanDismiss(!ev.detail.checked);
               }}
             ></IonCheckbox>
           </IonItem>
+
+          <IonButton expand="full" onClick={() => dismiss()}>
+            {canDismiss ? 'Adicionar e fechar' : 'Adicionar'}
+          </IonButton>
         </IonContent>
       </IonModal>
 
