@@ -31,7 +31,7 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
 
   useEffect(() => {
     setPresentingElement(page.current);
-  }, []);
+  }, [page]);
 
   function dismiss() {
     modal.current?.dismiss();
