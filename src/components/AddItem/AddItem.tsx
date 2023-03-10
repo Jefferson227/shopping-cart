@@ -33,7 +33,7 @@ const AddItem: React.FC<AddItemProps> = ({
   addItem,
 }) => {
   const modal = useRef<HTMLIonModalElement>(null);
-
+  const [allFieldsArePopulated, setAllFieldsArePopulated] = useState(false);
   const [canDismiss, setCanDismiss] = useState(false);
   const [presentingElement, setPresentingElement] = useState<
     HTMLElement | undefined
@@ -57,6 +57,14 @@ const AddItem: React.FC<AddItemProps> = ({
     dismiss();
   }
 
+  function validateFields() {
+    setAllFieldsArePopulated(
+      itemName.current?.value !== '' &&
+        itemQuantity.current?.value !== '' &&
+        itemPrice.current?.value !== ''
+    );
+  }
+
   return (
     <>
       <IonModal
@@ -77,7 +85,11 @@ const AddItem: React.FC<AddItemProps> = ({
         <IonContent>
           <IonItem>
             <IonLabel>Item</IonLabel>
-            <IonInput placeholder="1kg de arroz" ref={itemName}></IonInput>
+            <IonInput
+              placeholder="1kg de arroz"
+              ref={itemName}
+              onIonChange={() => validateFields()}
+            ></IonInput>
           </IonItem>
 
           <IonItem>
@@ -87,6 +99,7 @@ const AddItem: React.FC<AddItemProps> = ({
               type="number"
               inputMode="decimal"
               ref={itemQuantity}
+              onIonChange={() => validateFields()}
             ></IonInput>
           </IonItem>
 
@@ -97,6 +110,7 @@ const AddItem: React.FC<AddItemProps> = ({
               type="number"
               inputMode="decimal"
               ref={itemPrice}
+              onIonChange={() => validateFields()}
             ></IonInput>
           </IonItem>
 
@@ -112,7 +126,11 @@ const AddItem: React.FC<AddItemProps> = ({
             ></IonCheckbox>
           </IonItem>
 
-          <IonButton expand="full" onClick={() => addItemAndDismiss()}>
+          <IonButton
+            expand="full"
+            disabled={!allFieldsArePopulated}
+            onClick={() => addItemAndDismiss()}
+          >
             {canDismiss ? 'Adicionar e fechar' : 'Adicionar'}
           </IonButton>
         </IonContent>
