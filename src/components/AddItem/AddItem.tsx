@@ -38,8 +38,8 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
   }
 
   function forceDismiss() {
-    if (!canDismiss) setCanDismiss(true);
-    dismiss();
+    setCanDismiss(true);
+    setTimeout(() => dismiss(), 0);
   }
 
   return (
