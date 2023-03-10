@@ -51,7 +51,7 @@ const ItemList: React.FC<ItemListProps> = ({ items, deleteItem }) => {
                   )}
                 </h2>
                 <p>
-                  Preço unitário:{' '}
+                  Unidade:{' '}
                   {localeCurrency.format(parseFloat(item.price ?? '0'))}
                 </p>
               </IonLabel>
