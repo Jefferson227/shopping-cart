@@ -19,9 +19,19 @@ import { useEffect, useRef, useState } from 'react';
 
 interface AddItemProps {
   page: React.MutableRefObject<undefined>;
+  itemName: React.MutableRefObject<HTMLIonInputElement | null>;
+  itemPrice: React.MutableRefObject<HTMLIonInputElement | null>;
+  itemQuantity: React.MutableRefObject<HTMLIonInputElement | null>;
+  addItem: () => void;
 }
 
-const AddItem: React.FC<AddItemProps> = ({ page }) => {
+const AddItem: React.FC<AddItemProps> = ({
+  page,
+  itemName,
+  itemPrice,
+  itemQuantity,
+  addItem,
+}) => {
   const modal = useRef<HTMLIonModalElement>(null);
 
   const [canDismiss, setCanDismiss] = useState(false);
@@ -40,6 +50,11 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
   function forceDismiss() {
     setCanDismiss(true);
     setTimeout(() => dismiss(), 0);
+  }
+
+  function addItemAndDismiss() {
+    addItem();
+    dismiss();
   }
 
   return (
@@ -62,7 +77,7 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
         <IonContent>
           <IonItem>
             <IonLabel>Item</IonLabel>
-            <IonInput placeholder="1kg de arroz"></IonInput>
+            <IonInput placeholder="1kg de arroz" ref={itemName}></IonInput>
           </IonItem>
 
           <IonItem>
@@ -71,6 +86,7 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
               placeholder="1"
               type="number"
               inputMode="decimal"
+              ref={itemQuantity}
             ></IonInput>
           </IonItem>
 
@@ -80,6 +96,7 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
               placeholder="3.99"
               type="number"
               inputMode="decimal"
+              ref={itemPrice}
             ></IonInput>
           </IonItem>
 
@@ -95,7 +112,7 @@ const AddItem: React.FC<AddItemProps> = ({ page }) => {
             ></IonCheckbox>
           </IonItem>
 
-          <IonButton expand="full" onClick={() => dismiss()}>
+          <IonButton expand="full" onClick={() => addItemAndDismiss()}>
             {canDismiss ? 'Adicionar e fechar' : 'Adicionar'}
           </IonButton>
         </IonContent>

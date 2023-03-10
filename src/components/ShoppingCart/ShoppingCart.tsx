@@ -110,44 +110,13 @@ const ShoppingCart = () => {
         </IonItem>
       </IonList>
 
-      <IonList>
-        <IonListHeader>
-          <IonLabel>Adicionar Itens</IonLabel>
-        </IonListHeader>
-
-        <IonItem>
-          <IonLabel>Item</IonLabel>
-          <IonInput placeholder="1kg de arroz" ref={itemName}></IonInput>
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>Quantidade</IonLabel>
-          <IonInput
-            placeholder="1"
-            type="number"
-            inputMode="decimal"
-            ref={itemQuantity}
-          ></IonInput>
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>Preço</IonLabel>
-          <IonInput
-            placeholder="3.99"
-            type="number"
-            inputMode="decimal"
-            ref={itemPrice}
-          ></IonInput>
-        </IonItem>
-
-        <IonItem>
-          <IonButton style={{ width: '100%' }} onClick={addItem}>
-            Adicionar
-          </IonButton>
-        </IonItem>
-      </IonList>
-
-      <AddItem page={page} />
+      <AddItem
+        page={page}
+        itemName={itemName}
+        itemQuantity={itemQuantity}
+        itemPrice={itemPrice}
+        addItem={addItem}
+      />
 
       <ItemList items={items} deleteItem={deleteItem} />
     </IonPage>
