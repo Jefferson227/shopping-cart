@@ -118,7 +118,7 @@ const AddItem: React.FC<AddItemProps> = ({
         </IonContent>
       </IonModal>
 
-      <IonFab id="open-modal" slot="fixed" vertical="bottom" horizontal="end">
+      <IonFab id="open-modal" slot="fixed" vertical="top" horizontal="end">
         <IonFabButton>
           <IonIcon icon={add}></IonIcon>
         </IonFabButton>
