@@ -4,6 +4,7 @@ import {
   IonLabel,
   IonInput,
   IonListHeader,
+  IonPage,
 } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
@@ -70,7 +71,7 @@ const ShoppingCart = () => {
   }, []);
 
   return (
-    <>
+    <IonPage>
       <IonList>
         <IonListHeader>
           <IonLabel>Totais</IonLabel>
@@ -117,7 +118,7 @@ const ShoppingCart = () => {
       />
 
       <ItemList items={items} deleteItem={deleteItem} />
-    </>
+    </IonPage>
   );
 };
 
