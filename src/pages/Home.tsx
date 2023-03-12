@@ -7,10 +7,13 @@ import {
 } from '@ionic/react';
 import './Home.css';
 import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
+import { useRef } from 'react';
 
 const Home: React.FC = () => {
+  const page = useRef(undefined);
+
   return (
-    <IonPage>
+    <IonPage ref={page}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Shopping Cart</IonTitle>
@@ -23,7 +26,7 @@ const Home: React.FC = () => {
           </IonToolbar>
         </IonHeader>
 
-        <ShoppingCart />
+        <ShoppingCart page={page} />
       </IonContent>
     </IonPage>
   );

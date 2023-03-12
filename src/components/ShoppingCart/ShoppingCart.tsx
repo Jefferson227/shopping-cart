@@ -4,7 +4,6 @@ import {
   IonLabel,
   IonInput,
   IonListHeader,
-  IonPage,
 } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
@@ -12,8 +11,11 @@ import { Item } from '../../interfaces/Item';
 import ItemList from '../ItemList/ItemList';
 import AddItem from '../AddItem/AddItem';
 
-const ShoppingCart = () => {
-  const page = useRef(undefined);
+interface ShoppingCartProps {
+  page: React.MutableRefObject<undefined>;
+}
+
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ page }) => {
   const [budget, setBudget] = useState(0);
   const total = useRef<HTMLIonInputElement | null>(null);
   const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
@@ -71,7 +73,7 @@ const ShoppingCart = () => {
   }, []);
 
   return (
-    <IonPage>
+    <>
       <IonList>
         <IonListHeader>
           <IonLabel>Totais</IonLabel>
@@ -118,7 +120,7 @@ const ShoppingCart = () => {
       />
 
       <ItemList items={items} deleteItem={deleteItem} />
-    </IonPage>
+    </>
   );
 };
 
