@@ -71,7 +71,7 @@ const ShoppingCart = () => {
   }, []);
 
   return (
-    <IonPage ref={page}>
+    <IonPage>
       <IonList>
         <IonListHeader>
           <IonLabel>Totais</IonLabel>
