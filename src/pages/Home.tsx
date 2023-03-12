@@ -1,6 +1,9 @@
 import {
+  IonButtons,
   IonContent,
   IonHeader,
+  IonMenu,
+  IonMenuButton,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -13,22 +16,40 @@ const Home: React.FC = () => {
   const page = useRef(undefined);
 
   return (
-    <IonPage ref={page}>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Shopping Cart</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonHeader collapse="condense">
+    <>
+      <IonMenu contentId="main-content">
+        <IonHeader>
           <IonToolbar>
-            <IonTitle size="large">Shopping Cart</IonTitle>
+            <IonTitle>Menu Content</IonTitle>
           </IonToolbar>
         </IonHeader>
 
-        <ShoppingCart page={page} />
-      </IonContent>
-    </IonPage>
+        <IonContent className="ion-padding">
+          This is the menu content.
+        </IonContent>
+      </IonMenu>
+
+      <IonPage id="main-content" ref={page}>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonMenuButton></IonMenuButton>
+            </IonButtons>
+            <IonTitle>Shopping Cart</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+
+        <IonContent fullscreen>
+          <IonHeader collapse="condense">
+            <IonToolbar>
+              <IonTitle size="large">Shopping Cart</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+
+          <ShoppingCart page={page} />
+        </IonContent>
+      </IonPage>
+    </>
   );
 };
 
