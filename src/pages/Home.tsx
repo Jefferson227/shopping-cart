@@ -11,23 +11,14 @@ import {
 import './Home.css';
 import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
 import { useRef } from 'react';
+import IonMenuContainer from '../components/IonMenuContainer/IonMenuContainer';
 
 const Home: React.FC = () => {
   const page = useRef(undefined);
 
   return (
     <>
-      <IonMenu contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Menu Content</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
-        <IonContent className="ion-padding">
-          This is the menu content.
-        </IonContent>
-      </IonMenu>
+      <IonMenuContainer contentId="main-content" />
 
       <IonPage id="main-content" ref={page}>
         <IonHeader>
