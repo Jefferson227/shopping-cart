@@ -4,6 +4,13 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonCard,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
 } from '@ionic/react';
 
 interface IonMenuContainerProps {
@@ -15,11 +22,33 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({ contentId }) => {
     <IonMenu contentId={contentId}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Menu Content</IonTitle>
+          <IonTitle>Totais</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent className="ion-padding">This is the menu content.</IonContent>
+      <IonContent className="ion-padding">
+        <IonItem>
+          <IonLabel>Budget</IonLabel>
+
+          <IonInput
+            placeholder="1300.00"
+            inputMode="decimal"
+            type="number"
+          ></IonInput>
+        </IonItem>
+
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>9999.99</IonCardTitle>
+            <IonCardSubtitle>Total</IonCardSubtitle>
+          </IonCardHeader>
+
+          <IonCardHeader>
+            <IonCardTitle>9999.99</IonCardTitle>
+            <IonCardSubtitle>Total - Budget</IonCardSubtitle>
+          </IonCardHeader>
+        </IonCard>
+      </IonContent>
     </IonMenu>
   );
 };
