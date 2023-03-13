@@ -12,12 +12,20 @@ import {
   IonCardSubtitle,
   IonCardTitle,
 } from '@ionic/react';
+import { useState } from 'react';
+import { Total } from '../../interfaces/Total';
 
 interface IonMenuContainerProps {
   contentId: string;
+  total: Total | undefined;
 }
 
-const IonMenuContainer: React.FC<IonMenuContainerProps> = ({ contentId }) => {
+const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
+  contentId,
+  total,
+}) => {
+  const [budget, setBudget] = useState(0);
+
   return (
     <IonMenu contentId={contentId}>
       <IonHeader>
@@ -34,17 +42,23 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({ contentId }) => {
             placeholder="1300.00"
             inputMode="decimal"
             type="number"
+            value={budget}
+            onIonChange={(e) =>
+              setBudget(parseInt(e.target.value?.toString() ?? '0'))
+            }
           ></IonInput>
         </IonItem>
 
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>9999.99</IonCardTitle>
+            <IonCardTitle>{total?.total.toFixed(2)}</IonCardTitle>
             <IonCardSubtitle>Total</IonCardSubtitle>
           </IonCardHeader>
 
           <IonCardHeader>
-            <IonCardTitle>9999.99</IonCardTitle>
+            <IonCardTitle>
+              {((total?.total ?? 0) - (total?.budget ?? 0)).toFixed(2)}
+            </IonCardTitle>
             <IonCardSubtitle>Total - Budget</IonCardSubtitle>
           </IonCardHeader>
         </IonCard>

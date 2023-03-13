@@ -10,12 +10,15 @@ import { v4 as uuid } from 'uuid';
 import { Item } from '../../interfaces/Item';
 import ItemList from '../ItemList/ItemList';
 import AddItem from '../AddItem/AddItem';
+import { Total } from '../../interfaces/Total';
 
 interface ShoppingCartProps {
   page: React.MutableRefObject<undefined>;
+  total: Total | undefined;
+  setTotal: React.Dispatch<React.SetStateAction<Total | undefined>>;
 }
 
-const ShoppingCart: React.FC<ShoppingCartProps> = ({ page }) => {
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ page, setTotal }) => {
   const [budget, setBudget] = useState(0);
   const total = useRef<HTMLIonInputElement | null>(null);
   const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
@@ -60,6 +63,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ page }) => {
     );
 
     if (total.current) total.current.value = sum.toFixed(2);
+    setTotal({ budget, total: sum });
+
     if (budgetMinusTotal.current)
       budgetMinusTotal.current.value = budgetMinusTotalSum;
   }, [items, budget]);
@@ -74,7 +79,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ page }) => {
 
   return (
     <>
-      <IonList>
+      {/* <IonList>
         <IonListHeader>
           <IonLabel>Totais</IonLabel>
         </IonListHeader>
@@ -109,7 +114,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ page }) => {
             readonly={true}
           ></IonInput>
         </IonItem>
-      </IonList>
+      </IonList> */}
 
       <AddItem
         page={page}

@@ -2,7 +2,6 @@ import {
   IonButtons,
   IonContent,
   IonHeader,
-  IonMenu,
   IonMenuButton,
   IonPage,
   IonTitle,
@@ -10,15 +9,17 @@ import {
 } from '@ionic/react';
 import './Home.css';
 import ShoppingCart from '../components/ShoppingCart/ShoppingCart';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import IonMenuContainer from '../components/IonMenuContainer/IonMenuContainer';
+import { Total } from '../interfaces/Total';
 
 const Home: React.FC = () => {
   const page = useRef(undefined);
+  const [total, setTotal] = useState<Total | undefined>(undefined);
 
   return (
     <>
-      <IonMenuContainer contentId="main-content" />
+      <IonMenuContainer contentId="main-content" total={total} />
 
       <IonPage id="main-content" ref={page}>
         <IonHeader>
@@ -37,7 +38,7 @@ const Home: React.FC = () => {
             </IonToolbar>
           </IonHeader>
 
-          <ShoppingCart page={page} />
+          <ShoppingCart page={page} total={total} setTotal={setTotal} />
         </IonContent>
       </IonPage>
     </>
