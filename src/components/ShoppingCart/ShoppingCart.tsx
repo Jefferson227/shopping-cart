@@ -1,10 +1,10 @@
-import {
-  IonList,
-  IonItem,
-  IonLabel,
-  IonInput,
-  IonListHeader,
-} from '@ionic/react';
+// import {
+//   IonList,
+//   IonItem,
+//   IonLabel,
+//   IonInput,
+//   IonListHeader,
+// } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Item } from '../../interfaces/Item';
@@ -19,7 +19,8 @@ interface ShoppingCartProps {
 }
 
 const ShoppingCart: React.FC<ShoppingCartProps> = ({ page, setTotal }) => {
-  const [budget, setBudget] = useState(0);
+  // const [budget, setBudget] = useState(0);
+  const budget = 0;
   const total = useRef<HTMLIonInputElement | null>(null);
   const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
   const itemName = useRef<HTMLIonInputElement | null>(null);
@@ -67,7 +68,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ page, setTotal }) => {
 
     if (budgetMinusTotal.current)
       budgetMinusTotal.current.value = budgetMinusTotalSum;
-  }, [items, budget]);
+  }, [setTotal, items, budget]);
 
   useEffect(() => {
     const jsonItems = JSON.parse(localStorage.getItem('items') ?? '[]');
