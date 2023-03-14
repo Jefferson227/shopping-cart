@@ -19,7 +19,11 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <IonMenuContainer contentId="main-content" total={total} />
+      <IonMenuContainer
+        contentId="main-content"
+        setTotal={setTotal}
+        total={total}
+      />
 
       <IonPage id="main-content" ref={page}>
         <IonHeader>

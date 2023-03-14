@@ -1,10 +1,3 @@
-// import {
-//   IonList,
-//   IonItem,
-//   IonLabel,
-//   IonInput,
-//   IonListHeader,
-// } from '@ionic/react';
 import { useRef, useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Item } from '../../interfaces/Item';
@@ -18,11 +11,11 @@ interface ShoppingCartProps {
   setTotal: React.Dispatch<React.SetStateAction<Total | undefined>>;
 }
 
-const ShoppingCart: React.FC<ShoppingCartProps> = ({ page, setTotal }) => {
-  // const [budget, setBudget] = useState(0);
-  const budget = 0;
-  const total = useRef<HTMLIonInputElement | null>(null);
-  const budgetMinusTotal = useRef<HTMLIonInputElement | null>(null);
+const ShoppingCart: React.FC<ShoppingCartProps> = ({
+  page,
+  total,
+  setTotal,
+}) => {
   const itemName = useRef<HTMLIonInputElement | null>(null);
   const itemPrice = useRef<HTMLIonInputElement | null>(null);
   const itemQuantity = useRef<HTMLIonInputElement | null>(null);
@@ -59,16 +52,8 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ page, setTotal }) => {
       )
       .reduce((sum, current) => (sum += current), 0);
 
-    const budgetMinusTotalSum = (parseFloat(budget.toString()) - sum).toFixed(
-      2
-    );
-
-    if (total.current) total.current.value = sum.toFixed(2);
-    setTotal({ budget, total: sum });
-
-    if (budgetMinusTotal.current)
-      budgetMinusTotal.current.value = budgetMinusTotalSum;
-  }, [setTotal, items, budget]);
+    setTotal({ total: sum, budget: total?.budget ?? 0 });
+  }, [setTotal, items, total?.budget]);
 
   useEffect(() => {
     const jsonItems = JSON.parse(localStorage.getItem('items') ?? '[]');
@@ -80,43 +65,6 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({ page, setTotal }) => {
 
   return (
     <>
-      {/* <IonList>
-        <IonListHeader>
-          <IonLabel>Totais</IonLabel>
-        </IonListHeader>
-
-        <IonItem>
-          <IonLabel>Budget</IonLabel>
-          <IonInput
-            placeholder="9999.99"
-            type="number"
-            inputMode="decimal"
-            value={budget}
-            onIonChange={(e) =>
-              setBudget(parseInt(e.target.value?.toString() ?? '0'))
-            }
-          ></IonInput>
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>Total</IonLabel>
-          <IonInput
-            placeholder="9999.99"
-            ref={total}
-            readonly={true}
-          ></IonInput>
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>Budget - Total</IonLabel>
-          <IonInput
-            placeholder="9999.99"
-            ref={budgetMinusTotal}
-            readonly={true}
-          ></IonInput>
-        </IonItem>
-      </IonList> */}
-
       <AddItem
         page={page}
         itemName={itemName}

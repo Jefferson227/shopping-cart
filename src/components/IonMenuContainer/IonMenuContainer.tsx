@@ -59,7 +59,7 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
 
           <IonCardHeader>
             <IonCardTitle>
-              {((total?.total ?? 0) - (total?.budget ?? 0)).toFixed(2)}
+              {((total?.budget ?? 0) - (total?.total ?? 0)).toFixed(2)}
             </IonCardTitle>
             <IonCardSubtitle>Total - Budget</IonCardSubtitle>
           </IonCardHeader>
