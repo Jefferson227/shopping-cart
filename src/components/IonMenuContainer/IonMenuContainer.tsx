@@ -12,7 +12,7 @@ import {
   IonCardSubtitle,
   IonCardTitle,
 } from '@ionic/react';
-import { useRef } from 'react';
+import { useState } from 'react';
 import { Total } from '../../interfaces/Total';
 
 interface IonMenuContainerProps {
@@ -26,7 +26,24 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
   total,
   setTotal,
 }) => {
-  const budget = useRef<HTMLIonInputElement | null>(null);
+  const [budget, setBudget] = useState('0,00');
+
+  function applyCurrencyMask(e: any) {
+    let value = e.target.value;
+
+    value = value.replace('.', '').replace(',', '').replace(/\D/g, '');
+
+    const options = { minimumFractionDigits: 2 };
+    const result = new Intl.NumberFormat(navigator.language, options).format(
+      parseFloat(value) / 100
+    );
+
+    setBudget(result);
+  }
+
+  function convertCurrencyToFloat(val: string) {
+    return parseFloat(val.replaceAll(',', '').replaceAll('.', '')) / 100;
+  }
 
   return (
     <IonMenu contentId={contentId}>
@@ -42,12 +59,13 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
 
           <IonInput
             placeholder="1300.00"
-            type="number"
+            type="text"
             inputMode="decimal"
-            ref={budget}
+            value={budget}
+            onIonChange={(e) => applyCurrencyMask(e)}
             onIonBlur={(e) =>
               setTotal({
-                budget: parseFloat(budget.current?.value?.toString() ?? '0'),
+                budget: convertCurrencyToFloat(budget),
                 total: total?.total ?? 0,
               })
             }
