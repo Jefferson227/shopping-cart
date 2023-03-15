@@ -33,7 +33,9 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
   >(undefined);
 
   const [itemName, setItemName] = useState('');
-  const [itemQuantity, setItemQuantity] = useState('1');
+  const [itemQuantity, setItemQuantity] = useState(
+    Utils.applyCurrencyMask('1.00')
+  );
   const [itemPrice, setItemPrice] = useState(Utils.applyCurrencyMask('0.00'));
 
   useEffect(() => {
@@ -44,7 +46,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
     setAllFieldsArePopulated(
       itemName !== '' &&
         itemQuantity !== '' &&
-        itemQuantity !== '0' &&
+        itemQuantity !== Utils.applyCurrencyMask('0.00') &&
         itemPrice !== '' &&
         itemPrice !== Utils.applyCurrencyMask('0.00')
     );
@@ -63,14 +65,15 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
     addItem({
       id: '',
       name: itemName,
-      quantity: itemQuantity,
-      price: Utils.convertCurrencyToFloat(itemPrice).toFixed(),
+      quantity: Utils.convertCurrencyToFloat(itemQuantity).toFixed(2),
+      price: Utils.convertCurrencyToFloat(itemPrice).toFixed(2),
     });
-    dismiss();
 
     setItemName('');
-    setItemQuantity('1');
+    setItemQuantity(Utils.applyCurrencyMask('1.00'));
     setItemPrice(Utils.applyCurrencyMask('0.00'));
+
+    dismiss();
   }
 
   return (
@@ -95,6 +98,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
             <IonLabel>Item</IonLabel>
             <IonInput
               placeholder="1kg de arroz"
+              value={itemName}
               onIonChange={(e) => {
                 setItemName(e.target?.value ? e.target.value.toString() : '');
               }}
@@ -105,13 +109,10 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
             <IonLabel>Quantidade</IonLabel>
             <IonInput
               placeholder="1"
-              type="number"
               inputMode="decimal"
               value={itemQuantity}
               onIonChange={(e) => {
-                setItemQuantity(
-                  e.target?.value ? e.target.value.toString() : '0'
-                );
+                setItemQuantity(Utils.applyCurrencyMask(e.target.value));
               }}
             ></IonInput>
           </IonItem>
