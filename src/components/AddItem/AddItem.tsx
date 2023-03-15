@@ -67,6 +67,10 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
       price: Utils.convertCurrencyToFloat(itemPrice).toFixed(),
     });
     dismiss();
+
+    setItemName('');
+    setItemQuantity('1');
+    setItemPrice(Utils.applyCurrencyMask('0.00'));
   }
 
   return (
