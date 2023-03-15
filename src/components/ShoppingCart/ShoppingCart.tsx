@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuid } from 'uuid';
 import { Item } from '../../interfaces/Item';
 import ItemList from '../ItemList/ItemList';
