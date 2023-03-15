@@ -16,22 +16,12 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
   total,
   setTotal,
 }) => {
-  const itemName = useRef<HTMLIonInputElement | null>(null);
-  const itemPrice = useRef<HTMLIonInputElement | null>(null);
-  const itemQuantity = useRef<HTMLIonInputElement | null>(null);
   const [items, setItems] = useState(Array<Item>);
-  const addItem = () => {
-    const newItem: Item = {
-      id: uuid(),
-      name: itemName.current?.value?.toString() ?? '',
-      price: itemPrice.current?.value?.toString().replace(/,/g, '.') ?? '',
-      quantity: itemQuantity.current?.value?.toString() ?? '',
-    };
 
-    if (itemName.current) itemName.current.value = '';
-    if (itemPrice.current) itemPrice.current.value = '';
+  const addItem = (item: Item) => {
+    if (item.id === '') item.id = uuid();
 
-    setItems([...items, newItem]);
+    setItems([...items, item]);
   };
 
   const deleteItem = (itemId: string) => {
@@ -65,13 +55,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
 
   return (
     <>
-      <AddItem
-        page={page}
-        itemName={itemName}
-        itemQuantity={itemQuantity}
-        itemPrice={itemPrice}
-        addItem={addItem}
-      />
+      <AddItem page={page} addItem={addItem} />
 
       <ItemList items={items} deleteItem={deleteItem} />
     </>

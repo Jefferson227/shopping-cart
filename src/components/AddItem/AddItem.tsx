@@ -16,22 +16,15 @@ import {
 } from '@ionic/react';
 import { add } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
+import { Item } from '../../interfaces/Item';
+import Utils from '../../utils/Utils';
 
 interface AddItemProps {
   page: React.MutableRefObject<undefined>;
-  itemName: React.MutableRefObject<HTMLIonInputElement | null>;
-  itemPrice: React.MutableRefObject<HTMLIonInputElement | null>;
-  itemQuantity: React.MutableRefObject<HTMLIonInputElement | null>;
-  addItem: () => void;
+  addItem: (item: Item) => void;
 }
 
-const AddItem: React.FC<AddItemProps> = ({
-  page,
-  itemName,
-  itemPrice,
-  itemQuantity,
-  addItem,
-}) => {
+const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
   const modal = useRef<HTMLIonModalElement>(null);
   const [allFieldsArePopulated, setAllFieldsArePopulated] = useState(false);
   const [canDismiss, setCanDismiss] = useState(false);
@@ -39,9 +32,23 @@ const AddItem: React.FC<AddItemProps> = ({
     HTMLElement | undefined
   >(undefined);
 
+  const [itemName, setItemName] = useState('');
+  const [itemQuantity, setItemQuantity] = useState('1');
+  const [itemPrice, setItemPrice] = useState(Utils.applyCurrencyMask('0.00'));
+
   useEffect(() => {
     setPresentingElement(page.current);
   }, [page]);
+
+  useEffect(() => {
+    setAllFieldsArePopulated(
+      itemName !== '' &&
+        itemQuantity !== '' &&
+        itemQuantity !== '0' &&
+        itemPrice !== '' &&
+        itemPrice !== Utils.applyCurrencyMask('0.00')
+    );
+  }, [itemName, itemQuantity, itemPrice]);
 
   function dismiss() {
     modal.current?.dismiss();
@@ -53,16 +60,13 @@ const AddItem: React.FC<AddItemProps> = ({
   }
 
   function addItemAndDismiss() {
-    addItem();
+    addItem({
+      id: '',
+      name: itemName,
+      quantity: itemQuantity,
+      price: Utils.convertCurrencyToFloat(itemPrice).toFixed(),
+    });
     dismiss();
-  }
-
-  function validateFields() {
-    setAllFieldsArePopulated(
-      itemName.current?.value !== '' &&
-        itemQuantity.current?.value !== '' &&
-        itemPrice.current?.value !== ''
-    );
   }
 
   return (
@@ -87,8 +91,9 @@ const AddItem: React.FC<AddItemProps> = ({
             <IonLabel>Item</IonLabel>
             <IonInput
               placeholder="1kg de arroz"
-              ref={itemName}
-              onIonChange={() => validateFields()}
+              onIonChange={(e) => {
+                setItemName(e.target?.value ? e.target.value.toString() : '');
+              }}
             ></IonInput>
           </IonItem>
 
@@ -98,19 +103,23 @@ const AddItem: React.FC<AddItemProps> = ({
               placeholder="1"
               type="number"
               inputMode="decimal"
-              ref={itemQuantity}
-              onIonChange={() => validateFields()}
+              value={itemQuantity}
+              onIonChange={(e) => {
+                setItemQuantity(
+                  e.target?.value ? e.target.value.toString() : '0'
+                );
+              }}
             ></IonInput>
           </IonItem>
 
           <IonItem>
             <IonLabel>Preço</IonLabel>
             <IonInput
-              placeholder="3.99"
-              type="number"
               inputMode="decimal"
-              ref={itemPrice}
-              onIonChange={() => validateFields()}
+              value={itemPrice}
+              onIonChange={(e) => {
+                setItemPrice(Utils.applyCurrencyMask(e.target.value));
+              }}
             ></IonInput>
           </IonItem>
 
