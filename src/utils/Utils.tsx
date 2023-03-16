@@ -57,8 +57,12 @@ function applyCurrencyMaskWithSymbol(value?: string | number | null) {
   return result;
 }
 
-function convertCurrencyToFloat(val: string) {
-  return parseFloat(val.replaceAll(',', '').replaceAll('.', '')) / 100;
+function convertCurrencyToFloat(val: string, decimalPlaces?: number) {
+  let divisor = 100;
+
+  if (decimalPlaces) divisor = Math.pow(10, decimalPlaces);
+
+  return parseFloat(val.replaceAll(',', '').replaceAll('.', '')) / divisor;
 }
 
 const Utils = {

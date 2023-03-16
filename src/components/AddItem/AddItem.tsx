@@ -14,7 +14,7 @@ import {
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
-import { add } from 'ionicons/icons';
+import { add, addOutline, removeOutline } from 'ionicons/icons';
 import { useEffect, useRef, useState } from 'react';
 import { Item } from '../../interfaces/Item';
 import Utils from '../../utils/Utils';
@@ -65,7 +65,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
     addItem({
       id: '',
       name: itemName,
-      quantity: Utils.convertCurrencyToFloat(itemQuantity).toFixed(2),
+      quantity: Utils.convertCurrencyToFloat(itemQuantity).toFixed(3),
       price: Utils.convertCurrencyToFloat(itemPrice).toFixed(2),
     });
 
@@ -115,6 +115,34 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
                 setItemQuantity(Utils.applyDecimalMask(3, e.target.value));
               }}
             ></IonInput>
+            <IonButton
+              onClick={() => {
+                setItemQuantity(
+                  Utils.applyDecimalMask(
+                    3,
+                    (Utils.convertCurrencyToFloat(itemQuantity, 3) + 1).toFixed(
+                      3
+                    )
+                  )
+                );
+              }}
+            >
+              <IonIcon icon={addOutline}></IonIcon>
+            </IonButton>
+            <IonButton
+              onClick={() => {
+                setItemQuantity(
+                  Utils.applyDecimalMask(
+                    3,
+                    (Utils.convertCurrencyToFloat(itemQuantity, 3) - 1).toFixed(
+                      3
+                    )
+                  )
+                );
+              }}
+            >
+              <IonIcon icon={removeOutline}></IonIcon>
+            </IonButton>
           </IonItem>
 
           <IonItem>
