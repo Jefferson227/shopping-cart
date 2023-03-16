@@ -34,7 +34,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
 
   const [itemName, setItemName] = useState('');
   const [itemQuantity, setItemQuantity] = useState(
-    Utils.applyCurrencyMask('1.00')
+    Utils.applyDecimalMask(3, '1.000')
   );
   const [itemPrice, setItemPrice] = useState(Utils.applyCurrencyMask('0.00'));
 
@@ -70,7 +70,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
     });
 
     setItemName('');
-    setItemQuantity(Utils.applyCurrencyMask('1.00'));
+    setItemQuantity(Utils.applyDecimalMask(3, '1.000'));
     setItemPrice(Utils.applyCurrencyMask('0.00'));
 
     dismiss();
@@ -112,7 +112,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
               inputMode="decimal"
               value={itemQuantity}
               onIonChange={(e) => {
-                setItemQuantity(Utils.applyCurrencyMask(e.target.value));
+                setItemQuantity(Utils.applyDecimalMask(3, e.target.value));
               }}
             ></IonInput>
           </IonItem>
