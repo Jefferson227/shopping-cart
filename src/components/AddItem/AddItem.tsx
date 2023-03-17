@@ -115,6 +115,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
                 setItemQuantity(Utils.applyDecimalMask(3, e.target.value));
               }}
             ></IonInput>
+
             <IonButton
               onClick={() => {
                 setItemQuantity(
@@ -129,6 +130,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
             >
               <IonIcon icon={addOutline}></IonIcon>
             </IonButton>
+
             <IonButton
               onClick={() => {
                 setItemQuantity(
@@ -140,6 +142,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
                   )
                 );
               }}
+              disabled={Utils.convertCurrencyToFloat(itemQuantity, 3) < 1}
             >
               <IonIcon icon={removeOutline}></IonIcon>
             </IonButton>
