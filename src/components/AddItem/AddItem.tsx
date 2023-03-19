@@ -33,10 +33,8 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
   >(undefined);
 
   const [itemName, setItemName] = useState('');
-  const [itemQuantity, setItemQuantity] = useState(
-    Utils.applyDecimalMask(3, '1.000')
-  );
-  const [itemPrice, setItemPrice] = useState(Utils.applyCurrencyMask('0.00'));
+  const [itemQuantity, setItemQuantity] = useState(1.0);
+  const [itemPrice, setItemPrice] = useState(0.0);
 
   useEffect(() => {
     setPresentingElement(page.current);
@@ -44,11 +42,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
 
   useEffect(() => {
     setAllFieldsArePopulated(
-      itemName !== '' &&
-        itemQuantity !== '' &&
-        itemQuantity !== Utils.applyCurrencyMask('0.00') &&
-        itemPrice !== '' &&
-        itemPrice !== Utils.applyCurrencyMask('0.00')
+      itemName !== '' && itemQuantity !== 0 && itemPrice !== 0
     );
   }, [itemName, itemQuantity, itemPrice]);
 
@@ -65,13 +59,13 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
     addItem({
       id: '',
       name: itemName,
-      quantity: Utils.convertCurrencyToFloat(itemQuantity).toFixed(3),
-      price: Utils.convertCurrencyToFloat(itemPrice).toFixed(2),
+      quantity: itemQuantity, //Utils.convertCurrencyToFloat(itemQuantity).toFixed(3),
+      price: itemPrice, //Utils.convertCurrencyToFloat(itemPrice).toFixed(2),
     });
 
     setItemName('');
-    setItemQuantity(Utils.applyDecimalMask(3, '1.000'));
-    setItemPrice(Utils.applyCurrencyMask('0.00'));
+    setItemQuantity(1.0); //Utils.applyDecimalMask(3, '1.000'));
+    setItemPrice(0.0); //Utils.applyCurrencyMask('0.00'));
 
     dismiss();
   }
@@ -110,22 +104,15 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
             <IonInput
               placeholder="1"
               inputMode="decimal"
-              value={itemQuantity}
+              value={Utils.applyDecimalMask(3, itemQuantity.toFixed(3))}
               onIonChange={(e) => {
-                setItemQuantity(Utils.applyDecimalMask(3, e.target.value));
+                setItemQuantity(Utils.convertCurrencyToFloat(e.target.value));
               }}
             ></IonInput>
 
             <IonButton
               onClick={() => {
-                setItemQuantity(
-                  Utils.applyDecimalMask(
-                    3,
-                    (Utils.convertCurrencyToFloat(itemQuantity, 3) + 1).toFixed(
-                      3
-                    )
-                  )
-                );
+                setItemQuantity(itemQuantity + 1);
               }}
             >
               <IonIcon icon={addOutline}></IonIcon>
@@ -133,14 +120,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
 
             <IonButton
               onClick={() => {
-                setItemQuantity(
-                  Utils.applyDecimalMask(
-                    3,
-                    (Utils.convertCurrencyToFloat(itemQuantity, 3) - 1).toFixed(
-                      3
-                    )
-                  )
-                );
+                setItemQuantity(itemQuantity - 1);
               }}
               disabled={Utils.convertCurrencyToFloat(itemQuantity, 3) < 1}
             >
@@ -152,9 +132,9 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
             <IonLabel>Preço</IonLabel>
             <IonInput
               inputMode="decimal"
-              value={itemPrice}
+              value={Utils.applyCurrencyMask(itemPrice.toFixed(2))}
               onIonChange={(e) => {
-                setItemPrice(Utils.applyCurrencyMask(e.target.value));
+                setItemPrice(Utils.convertCurrencyToFloat(e.target.value));
               }}
             ></IonInput>
           </IonItem>

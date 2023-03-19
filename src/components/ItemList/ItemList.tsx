@@ -39,20 +39,23 @@ const ItemList: React.FC<ItemListProps> = ({ items, deleteItem }) => {
                 <h2>{item.name}</h2>
                 <p>
                   Quantidade:{' '}
-                  {localeDecimal.format(parseFloat(item.quantity ?? '0'))}
+                  {/* {localeDecimal.format(parseFloat(item.quantity ?? '0'))} */}
+                  {localeDecimal.format(item.quantity)}
                 </p>
               </IonLabel>
 
               <IonLabel slot="end">
                 <h2 style={{ textAlign: 'right' }}>
-                  {localeCurrency.format(
+                  {/* {localeCurrency.format(
                     parseFloat(item.quantity ?? '0') *
                       parseFloat(item.price ?? '0')
-                  )}
+                  )} */}
+                  {localeCurrency.format(item.quantity * item.price)}
                 </h2>
                 <p>
                   Unidade:{' '}
-                  {localeCurrency.format(parseFloat(item.price ?? '0'))}
+                  {/* {localeCurrency.format(parseFloat(item.price ?? '0'))} */}
+                  {localeCurrency.format(item.price)}
                 </p>
               </IonLabel>
             </IonItem>

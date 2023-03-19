@@ -36,10 +36,7 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
     if (items.length > 0) localStorage.setItem('items', JSON.stringify(items));
 
     const sum = items
-      .map(
-        (item) =>
-          parseFloat(item.quantity ?? '0') * parseFloat(item.price ?? '0')
-      )
+      .map((item) => item.quantity * item.price)
       .reduce((sum, current) => (sum += current), 0);
 
     setTotal({ total: sum, budget: total?.budget ?? 0 });
