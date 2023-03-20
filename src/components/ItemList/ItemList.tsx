@@ -9,6 +9,7 @@ import {
   IonListHeader,
 } from '@ionic/react';
 import { Item } from '../../interfaces/Item';
+import Utils from '../../utils/Utils';
 
 interface ItemListProps {
   items: Array<Item>;
@@ -16,15 +17,6 @@ interface ItemListProps {
 }
 
 const ItemList: React.FC<ItemListProps> = ({ items, deleteItem }) => {
-  const localeCurrency = new Intl.NumberFormat(navigator.language, {
-    style: 'currency',
-    currency: 'BRL',
-  });
-
-  const localeDecimal = new Intl.NumberFormat(navigator.language, {
-    style: 'decimal',
-  });
-
   return (
     <IonContent>
       <IonListHeader>
@@ -37,26 +29,14 @@ const ItemList: React.FC<ItemListProps> = ({ items, deleteItem }) => {
             <IonItem>
               <IonLabel slot="start">
                 <h2>{item.name}</h2>
-                <p>
-                  Quantidade:{' '}
-                  {/* {localeDecimal.format(parseFloat(item.quantity ?? '0'))} */}
-                  {localeDecimal.format(item.quantity)}
-                </p>
+                <p>Quantidade: {Utils.showAsLocaleDecimal(item.quantity)}</p>
               </IonLabel>
 
               <IonLabel slot="end">
                 <h2 style={{ textAlign: 'right' }}>
-                  {/* {localeCurrency.format(
-                    parseFloat(item.quantity ?? '0') *
-                      parseFloat(item.price ?? '0')
-                  )} */}
-                  {localeCurrency.format(item.quantity * item.price)}
+                  {Utils.showAsLocaleCurrency(item.quantity * item.price)}
                 </h2>
-                <p>
-                  Unidade:{' '}
-                  {/* {localeCurrency.format(parseFloat(item.price ?? '0'))} */}
-                  {localeCurrency.format(item.price)}
-                </p>
+                <p>Unidade: {Utils.showAsLocaleCurrency(item.price)}</p>
               </IonLabel>
             </IonItem>
 

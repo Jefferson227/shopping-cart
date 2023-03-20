@@ -70,11 +70,30 @@ function convertCurrencyToFloat(
   return parseFloat(value.replaceAll(',', '').replaceAll('.', '')) / divisor;
 }
 
+function showAsLocaleCurrency(number: number) {
+  const localeCurrency = new Intl.NumberFormat(navigator.language, {
+    style: 'currency',
+    currency: navigator.language === 'pt-BR' ? 'BRL' : 'USD',
+  });
+
+  return localeCurrency.format(number);
+}
+
+function showAsLocaleDecimal(number: number) {
+  const localeDecimal = new Intl.NumberFormat(navigator.language, {
+    style: 'decimal',
+  });
+
+  return localeDecimal.format(number);
+}
+
 const Utils = {
   applyCurrencyMask,
   applyCurrencyMaskWithSymbol,
   applyDecimalMask,
   convertCurrencyToFloat,
+  showAsLocaleCurrency,
+  showAsLocaleDecimal,
 };
 
 export default Utils;
