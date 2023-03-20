@@ -59,13 +59,13 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
     addItem({
       id: '',
       name: itemName,
-      quantity: itemQuantity, //Utils.convertCurrencyToFloat(itemQuantity).toFixed(3),
-      price: itemPrice, //Utils.convertCurrencyToFloat(itemPrice).toFixed(2),
+      quantity: itemQuantity,
+      price: itemPrice,
     });
 
     setItemName('');
-    setItemQuantity(1.0); //Utils.applyDecimalMask(3, '1.000'));
-    setItemPrice(0.0); //Utils.applyCurrencyMask('0.00'));
+    setItemQuantity(1.0);
+    setItemPrice(0.0);
 
     dismiss();
   }
@@ -106,7 +106,9 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
               inputMode="decimal"
               value={Utils.applyDecimalMask(3, itemQuantity.toFixed(3))}
               onIonChange={(e) => {
-                setItemQuantity(Utils.convertCurrencyToFloat(e.target.value));
+                setItemQuantity(
+                  Utils.convertCurrencyToFloat(e.target.value, 3)
+                );
               }}
             ></IonInput>
 
@@ -122,7 +124,7 @@ const AddItem: React.FC<AddItemProps> = ({ page, addItem }) => {
               onClick={() => {
                 setItemQuantity(itemQuantity - 1);
               }}
-              disabled={Utils.convertCurrencyToFloat(itemQuantity, 3) < 1}
+              disabled={itemQuantity < 1}
             >
               <IonIcon icon={removeOutline}></IonIcon>
             </IonButton>
