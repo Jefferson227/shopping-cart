@@ -53,7 +53,6 @@ const ShoppingCart: React.FC<ShoppingCartProps> = ({
   return (
     <>
       <AddItem page={page} addItem={addItem} />
-
       <ItemList items={items} deleteItem={deleteItem} />
     </>
   );
