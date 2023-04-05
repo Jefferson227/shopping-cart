@@ -60,15 +60,15 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>
-              {Utils.applyCurrencyMaskWithSymbol(total?.total.toFixed(2))}
+              {Utils.showAsLocaleCurrency(total?.total ?? 0)}
             </IonCardTitle>
             <IonCardSubtitle>Total</IonCardSubtitle>
           </IonCardHeader>
 
           <IonCardHeader>
             <IonCardTitle>
-              {Utils.applyCurrencyMaskWithSymbol(
-                ((total?.budget ?? 0) - (total?.total ?? 0)).toFixed(2)
+              {Utils.showAsLocaleCurrency(
+                (total?.budget ?? 0) - (total?.total ?? 0)
               )}
             </IonCardTitle>
             <IonCardSubtitle>Total - Budget</IonCardSubtitle>

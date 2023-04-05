@@ -72,11 +72,14 @@ function convertCurrencyToFloat(
 
 function showAsLocaleCurrency(number: number) {
   const localeCurrency = new Intl.NumberFormat(navigator.language, {
-    style: 'currency',
-    currency: navigator.language === 'pt-BR' ? 'BRL' : 'USD',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
   });
 
-  return localeCurrency.format(number);
+  const strNumber = localeCurrency.format(number);
+  const symbol = navigator.language === 'pt-BR' ? 'R$ ' : '$';
+
+  return `${symbol}${strNumber}`;
 }
 
 function showAsLocaleDecimal(number: number) {
