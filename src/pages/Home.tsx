@@ -36,12 +36,6 @@ const Home: React.FC = () => {
         </IonHeader>
 
         <IonContent fullscreen>
-          <IonHeader collapse="condense">
-            <IonToolbar>
-              <IonTitle size="large">Shopping Cart</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-
           <ShoppingCart page={page} total={total} setTotal={setTotal} />
         </IonContent>
       </IonPage>
