@@ -12,7 +12,7 @@ import {
   IonCardSubtitle,
   IonCardTitle,
 } from '@ionic/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Total } from '../../interfaces/Total';
 import Utils from '../../utils/Utils';
 import Service from '../../service/Service';
@@ -31,6 +31,13 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
   const [budget, setBudget] = useState(
     Utils.applyCurrencyMask(Service.getBudget())
   );
+
+  useEffect(() => {
+    setTotal({
+      budget: Utils.convertCurrencyToFloat(budget),
+      total: total?.total ?? 0,
+    });
+  }, [budget, total?.total, setTotal]);
 
   return (
     <IonMenu contentId={contentId}>
@@ -52,12 +59,6 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
               Service.setBudget((e.target.value ?? '0,00').toString());
               setBudget(Utils.applyCurrencyMask(e.target.value));
             }}
-            onIonBlur={(e) =>
-              setTotal({
-                budget: Utils.convertCurrencyToFloat(budget),
-                total: total?.total ?? 0,
-              })
-            }
           ></IonInput>
         </IonItem>
 
