@@ -15,6 +15,7 @@ import {
 import { useState } from 'react';
 import { Total } from '../../interfaces/Total';
 import Utils from '../../utils/Utils';
+import Service from '../../service/Service';
 
 interface IonMenuContainerProps {
   contentId: string;
@@ -27,7 +28,9 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
   total,
   setTotal,
 }) => {
-  const [budget, setBudget] = useState(Utils.applyCurrencyMask('0,00'));
+  const [budget, setBudget] = useState(
+    Utils.applyCurrencyMask(Service.getBudget())
+  );
 
   return (
     <IonMenu contentId={contentId}>
@@ -45,9 +48,10 @@ const IonMenuContainer: React.FC<IonMenuContainerProps> = ({
             type="text"
             inputMode="decimal"
             value={budget}
-            onIonChange={(e) =>
-              setBudget(Utils.applyCurrencyMask(e.target.value))
-            }
+            onIonChange={(e) => {
+              Service.setBudget((e.target.value ?? '0,00').toString());
+              setBudget(Utils.applyCurrencyMask(e.target.value));
+            }}
             onIonBlur={(e) =>
               setTotal({
                 budget: Utils.convertCurrencyToFloat(budget),
